@@ -1,0 +1,5 @@
+{
+  "name": "Uni-Assistant",
+  "description": "A professional, empathetic, and knowledgeable conversational AI assistant for Uni-Nest. It helps international students and landlords navigate the housing, roommate, and leasing process on the Uni-Nest web application.",
+  "requestFramePermissions": []
+}
