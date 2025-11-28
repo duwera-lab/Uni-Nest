@@ -1,11 +1,11 @@
+
 import React from 'react';
-import { RoommateProfile, HousingListing } from '../types';
+import { RoommateProfile, HousingListing, NavigationHandler } from '../types';
 import { ProfileStrength } from '../components/dashboard/ProfileStrength';
 import { RoommateCard } from '../components/dashboard/RoommateCard';
 import { BudgetCard } from '../components/dashboard/BudgetCard';
 import { ListingCard } from '../components/dashboard/ListingCard';
 import { UsersIcon, HomeIcon } from '../components/icons';
-import { Page } from '../App';
 
 const mockRoommates: RoommateProfile[] = [
   {
@@ -36,9 +36,10 @@ const mockListings: HousingListing[] = [
     rent: 850,
     bedrooms: 2,
     bathrooms: 1,
-    imageUrl: 'https://images.unsplash.com/photo-1572120360610-d971b9d7767c?q=80&w=2070&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1572120360610-d971b9d7767c?q=80&w=1024&h=768&auto=format&fit=crop',
     recommendationReason: 'High safety rating and a 10-minute walk to the engineering building.',
-    amenities: ['Wifi', 'Utilities Included'],
+    amenities: ['Wifi', 'Utilities Included', 'Parking'],
+    description: 'A bright and spacious 2-bedroom apartment perfect for students. Features a modern kitchen, hardwood floors, and large windows that let in plenty of natural light. Located in a quiet, safe neighborhood just a short walk from the main campus.',
     location: { lat: 34.0522, lng: -118.2437 }
   },
   {
@@ -48,15 +49,16 @@ const mockListings: HousingListing[] = [
     rent: 950,
     bedrooms: 1,
     bathrooms: 1,
-    imageUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1024&h=768&auto=format&fit=crop',
     recommendationReason: 'Excellent access to public transport and within your specified budget.',
     amenities: ['Wifi', 'Parking'],
+    description: 'Stylish and modern loft apartment in the heart of downtown. This unit boasts high ceilings, an open-concept living area, and a fully-equipped kitchen with stainless steel appliances. Ideal for a single student or a couple.',
     location: { lat: 34.0522, lng: -118.2437 }
   }
 ];
 
 interface DashboardPageProps {
-  onNavigate: (page: Page, listing?: HousingListing) => void;
+  onNavigate: NavigationHandler;
 }
 
 export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
@@ -81,7 +83,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {mockRoommates.map(roommate => (
-                  <RoommateCard key={roommate.id} roommate={roommate} />
+                  <RoommateCard key={roommate.id} roommate={roommate} onNavigate={onNavigate} />
                 ))}
               </div>
             </section>
@@ -102,7 +104,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
 
           {/* Sidebar Column */}
           <div className="space-y-8">
-            <ProfileStrength score={75} />
+            <ProfileStrength score={75} onNavigate={() => onNavigate('profile')} />
             <BudgetCard />
           </div>
         </div>

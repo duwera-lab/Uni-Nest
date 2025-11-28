@@ -1,11 +1,14 @@
 import React from 'react';
 import { ChartPieIcon, CheckCircleIcon } from '../icons';
+// FIX: Corrected import path for Page type.
+import { Page } from '../../types';
 
 interface ProfileStrengthProps {
   score: number;
+  onNavigate: (page: Page) => void;
 }
 
-export const ProfileStrength: React.FC<ProfileStrengthProps> = ({ score }) => {
+export const ProfileStrength: React.FC<ProfileStrengthProps> = ({ score, onNavigate }) => {
   const circumference = 2 * Math.PI * 45; // 2 * pi * radius
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
@@ -62,15 +65,20 @@ export const ProfileStrength: React.FC<ProfileStrengthProps> = ({ score }) => {
             <span>Add more lifestyle preferences</span>
           </li>
           <li className="flex items-center">
-            <CheckCircleIcon className="w-4 h-4 text-gray-400 mr-2 flex-shrink-0" />
+            <CheckCircleIcon className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
             <span>Upload a profile picture</span>
           </li>
-          <li className="flex items-center">
+          <li className="flex items-center opacity-60">
             <CheckCircleIcon className="w-4 h-4 text-gray-400 mr-2 flex-shrink-0" />
             <span>Verify your student status</span>
           </li>
         </ul>
       </div>
+      <button 
+        onClick={() => onNavigate('profile')}
+        className="w-full mt-4 px-4 py-2 bg-[--nd-blue] text-white text-sm font-semibold rounded-lg shadow-md hover:bg-[--nd-gold] hover:text-[--nd-blue] transition-colors">
+        Improve Your Profile
+      </button>
     </div>
   );
 };

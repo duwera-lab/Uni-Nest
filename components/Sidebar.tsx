@@ -9,10 +9,10 @@ interface SidebarProps {
 }
 
 const studentPrompts = [
+  "Find me a home",
   "How do I find a compatible roommate?",
   "Explain the lease application process for an international student.",
   "What are some common housing scams to avoid?",
-  "Can you give me advice on budgeting for housing?",
 ];
 
 const landlordPrompts = [

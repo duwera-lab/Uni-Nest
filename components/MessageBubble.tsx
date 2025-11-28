@@ -1,16 +1,22 @@
 import React from 'react';
-import type { Message } from '../types';
+import type { Message, NavigationHandler } from '../types';
 import { UserIcon, BotIcon } from './icons';
 
 interface MessageBubbleProps {
   message: Message;
+  onNavigate?: NavigationHandler;
 }
 
-const parseCitations = (text: string): React.ReactNode[] => {
+const parseMessageContent = (text: string, onNavigate?: NavigationHandler): React.ReactNode[] => {
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;
-  // Regex to find [cite_start]...[cite: XX] and standalone [cite: XX]
-  const regex = /(?:\[cite_start\](.*?)\[cite: (\d+)\])|\[cite: (\d+)\]/g;
+  
+  // Combined regex to find:
+  // 1. [cite_start]...[cite: XX]
+  // 2. [cite: XX]
+  // 3. [Link Text](Link URL)
+  const regex = /(?:\[cite_start\](.*?)\[cite: (\d+)\])|(?:\[cite: (\d+)\])|(?:\[([^\]]+)\]\(([^)]+)\))/g;
+  
   let match;
 
   while ((match = regex.exec(text)) !== null) {
@@ -19,24 +25,57 @@ const parseCitations = (text: string): React.ReactNode[] => {
       parts.push(textBefore);
     }
     
-    if (match[1] !== undefined) { // Matched [cite_start]...[cite: XX]
-      const citedText = match[1];
-      const citationNumber = match[2];
-      parts.push(
-        <span key={match.index} className="relative">
-          {citedText}
-          <sup className="ml-0.5 text-xs font-bold text-[--nd-gold] dark:text-[--nd-gold-light]" title={`Source: ${citationNumber}`}>
+    if (match[1] !== undefined) { 
+        // Case 1: [cite_start]...[cite: XX]
+        const citedText = match[1];
+        const citationNumber = match[2];
+        parts.push(
+            <span key={match.index} className="relative">
+            {citedText}
+            <sup className="ml-0.5 text-xs font-bold text-[--nd-gold] dark:text-[--nd-gold-light]" title={`Source: ${citationNumber}`}>
+                [{citationNumber}]
+            </sup>
+            </span>
+        );
+    } else if (match[3] !== undefined) { 
+        // Case 2: [cite: XX]
+        const citationNumber = match[3];
+        parts.push(
+            <sup key={match.index} className="mx-0.5 text-xs font-bold text-[--nd-gold] dark:text-[--nd-gold-light]" title={`Source: ${citationNumber}`}>
             [{citationNumber}]
-          </sup>
-        </span>
-      );
-    } else { // Matched standalone [cite: XX]
-      const citationNumber = match[3];
-      parts.push(
-        <sup key={match.index} className="mx-0.5 text-xs font-bold text-[--nd-gold] dark:text-[--nd-gold-light]" title={`Source: ${citationNumber}`}>
-          [{citationNumber}]
-        </sup>
-      );
+            </sup>
+        );
+    } else if (match[4] !== undefined && match[5] !== undefined) {
+        // Case 3: [Link Text](Link URL)
+        const linkText = match[4];
+        const linkUrl = match[5];
+
+        const isInternal = linkUrl.startsWith('/');
+        
+        parts.push(
+            <a 
+                key={match.index}
+                href={linkUrl}
+                onClick={(e) => {
+                    if (isInternal && onNavigate) {
+                        e.preventDefault();
+                        // Simple routing logic based on mock paths
+                        if (linkUrl === '/listings') {
+                            onNavigate('listings');
+                        } else if (linkUrl === '/dashboard') {
+                            onNavigate('dashboard');
+                        } else if (linkUrl === '/profile') {
+                            onNavigate('profile');
+                        }
+                    }
+                }}
+                className="text-[--nd-blue] dark:text-[--nd-gold-light] underline font-medium hover:text-[--nd-gold] dark:hover:text-white transition-colors cursor-pointer"
+                target={isInternal ? undefined : "_blank"}
+                rel={isInternal ? undefined : "noopener noreferrer"}
+            >
+                {linkText}
+            </a>
+        );
     }
     
     lastIndex = regex.lastIndex;
@@ -50,9 +89,9 @@ const parseCitations = (text: string): React.ReactNode[] => {
   return parts;
 };
 
-export const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
+export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onNavigate }) => {
   const isUser = message.sender === 'user';
-  const parsedText = isUser ? [message.text] : parseCitations(message.text);
+  const parsedText = isUser ? [message.text] : parseMessageContent(message.text, onNavigate);
 
   return (
     <div className={`flex items-start gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}>

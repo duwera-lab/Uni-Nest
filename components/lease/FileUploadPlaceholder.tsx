@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpTrayIcon } from '../icons';
+import { ArrowUpTrayIcon, LockClosedIcon } from '../icons';
 
 interface FileUploadPlaceholderProps {
   icon: React.ReactNode;
@@ -15,7 +15,15 @@ export const FileUploadPlaceholder: React.FC<FileUploadPlaceholderProps> = ({ ic
           {icon}
         </div>
         <div>
-          <h4 className="font-semibold text-gray-900 dark:text-white">{title}</h4>
+          <div className="flex items-center space-x-2">
+            <h4 className="font-semibold text-gray-900 dark:text-white">{title}</h4>
+            <div className="relative group">
+                <LockClosedIcon className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                <div className="absolute bottom-full mb-2 w-48 p-2 bg-gray-800 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                    Your data is encrypted and only shared with the landlord upon submission.
+                </div>
+            </div>
+          </div>
           <p className="text-xs text-gray-500 dark:text-gray-400">{description}</p>
         </div>
       </div>

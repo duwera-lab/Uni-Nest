@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import type { Message } from '../types';
+import type { Message, NavigationHandler } from '../types';
 import { MessageBubble } from './MessageBubble';
 import { SendIcon, SparklesIcon, XMarkIcon } from './icons';
 
@@ -7,26 +7,28 @@ interface ChatWindowProps {
   messages: Message[];
   onSendMessage: (text: string) => void;
   isLoading: boolean;
-  draftingForTitle?: string | null;
+  draftingTargetName?: string | null;
   draftText?: string | null;
   onDraftTextChange?: (text: string) => void;
   onSendDraft?: () => void;
   onCancelDraft?: () => void;
   suggestions?: string[];
   isGeneratingSuggestions?: boolean;
+  onNavigate?: NavigationHandler;
 }
 
 export const ChatWindow: React.FC<ChatWindowProps> = ({ 
     messages, 
     onSendMessage, 
     isLoading,
-    draftingForTitle,
+    draftingTargetName,
     draftText,
     onDraftTextChange,
     onSendDraft,
     onCancelDraft,
     suggestions,
     isGeneratingSuggestions,
+    onNavigate,
 }) => {
   const [inputText, setInputText] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -55,7 +57,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
     <div className="flex-1 flex flex-col h-full bg-gray-100 dark:bg-gray-900">
       <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
         {messages.map((msg) => (
-          <MessageBubble key={msg.id} message={msg} />
+          <MessageBubble key={msg.id} message={msg} onNavigate={onNavigate} />
         ))}
         {isLoading && (
           <div className="flex justify-start">
@@ -76,13 +78,13 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
             <div className="animate-fade-in space-y-4">
                 <div>
                     <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-200">
-                        Drafting inquiry for: <span className="font-bold text-[--nd-blue] dark:text-[--nd-gold-light]">{draftingForTitle}</span>
+                        Drafting message to: <span className="font-bold text-[--nd-blue] dark:text-[--nd-gold-light]">{draftingTargetName}</span>
                     </h3>
                 </div>
                 <textarea
                     value={draftText}
                     onChange={(e) => onDraftTextChange?.(e.target.value)}
-                    placeholder="Edit your message to the landlord..."
+                    placeholder="Edit your message..."
                     className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--nd-gold] transition-all"
                     rows={5}
                 />
@@ -113,11 +115,11 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                     </button>
                     <button
                         onClick={onSendDraft}
-                        disabled={!draftText.trim()}
+                        disabled={!draftText?.trim()}
                         className="flex items-center space-x-2 px-4 py-2 bg-[--nd-blue] text-white text-sm font-semibold rounded-lg shadow-md hover:bg-[--nd-gold] hover:text-[--nd-blue] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[--nd-gold] disabled:opacity-50 transition-colors"
                     >
                          <SendIcon className="w-5 h-5" />
-                         <span>Send Inquiry</span>
+                         <span>Send Message</span>
                     </button>
                 </div>
             </div>

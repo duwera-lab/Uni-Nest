@@ -30,13 +30,14 @@ export const AboutPage: React.FC = () => {
                 <li><span className="font-semibold text-gray-800 dark:text-gray-200">Verified Listings:</span> We vet every property and landlord to ensure they are legitimate, eliminating the risk of scams.</li>
                 <li><span className="font-semibold text-gray-800 dark:text-gray-200">Intelligent Roommate Matching:</span> Our algorithm connects students with compatible roommates, fostering a positive living environment.</li>
                 <li><span className="font-semibold text-gray-800 dark:text-gray-200">Transparent Processes:</span> From clear pricing to guided lease applications, we remove ambiguity and empower students to make informed decisions.</li>
+                <li><span className="font-semibold text-gray-800 dark:text-gray-200">Community Connections:</span> We help students connect with diaspora and university groups to build a support network.</li>
                 <li><span className="font-semibold text-gray-800 dark:text-gray-200">Empathetic Support:</span> Our Uni-Assistant chatbot provides 24/7 guidance, answering questions and offering support throughout the journey.</li>
               </ul>
             </div>
              <div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">For Landlords</h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">The Landlord Lift</h3>
               <p className="text-gray-700 dark:text-gray-400 leading-relaxed">
-                We connect landlords with a pool of reliable, vetted student tenants from around the world. Our platform streamlines the application and leasing process, helping property owners fill vacancies faster and manage their listings with ease.
+                We connect landlords with a pool of reliable, vetted student tenants from around the world. Our platform streamlines the application and leasing process, helping property owners fill vacancies faster with qualified leads and manage their listings with ease through our Landlord Console. Uni-Nest reduces the time and risk involved in finding the right tenants.
               </p>
             </div>
           </div>
