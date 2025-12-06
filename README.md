@@ -19,6 +19,7 @@ View your app in AI Studio: https://ai.studio/apps/drive/1RSIRNS6f_c45PpCAjUd7LL
 3. Run the app:
    `npm run dev`
 1. Clear Description of What the Product Does and How to View It
+   
 Uni-Nest is an AI-supported housing platform designed for international students who struggle with confusing, risky, and unfamiliar housing markets. It helps students:
 Create a simple onboarding profile
 Browse a verified listings map with commute-time filters
@@ -30,6 +31,7 @@ Landlords can also use Uni-Nest through a dedicated console that lets them list 
 To view the product, you navigate through the onboarding flow, open the dashboard, explore verified listings on the map, check your roommate matches, and interact with the Uni-Assistant chatbot that appears on every page. The current prototype includes working screens for onboarding, listings, map filters, roommate cards, the community hub, and the landlord console.
 
 2. Technologies Used
+
 Frontend
 React
 Tailwind CSS
@@ -49,6 +51,7 @@ View listings
 Move through lease steps
 
 3. How This Project Uses AI
+
 Uni-Nest uses AI in two main ways:
 1. AI Chatbot (Uni-Assistant)
 The AI chatbot appears on every page and gives simple, clear answers about housing. It explains documents, budgeting, safety, and common scams. When a student asks a question, the AI uses their profile data, listing information, and page context to produce an easy-to-understand response. It is designed to reduce confusion and stress for international students navigating housing for the first time.
