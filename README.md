@@ -1,10 +1,10 @@
 
 
-# Run and deploy your AI Studio app
+# About Uni- Nest
 
-This contains everything you need to run your app locally.
+This contains everything needed to run the app locally.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1RSIRNS6f_c45PpCAjUd7LLM4edFAFrI_
+View the app in AI Studio: https://ai.studio/apps/drive/1RSIRNS6f_c45PpCAjUd7LLM4edFAFrI_
 
 ## Run Locally
 
